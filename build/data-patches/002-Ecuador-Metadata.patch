@@ -1,0 +1,16 @@
+diff --git a/resources/PhoneNumberMetadata.xml b/resources/PhoneNumberMetadata.xml
+index bb5ac108..1bfb4ba1 100644
+--- a/resources/PhoneNumberMetadata.xml
++++ b/resources/PhoneNumberMetadata.xml
+@@ -7010,9 +7010,8 @@
+             6(?:
+               [017-9]\d{2}|
+               2(?:
+-                [0-47-9]\d|
+-                5[1-9]|
+-                60
++                [0-46-9]\d|
++                5[1-9]
+               )|
+               30\d
+             )
