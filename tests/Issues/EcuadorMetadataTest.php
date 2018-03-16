@@ -19,44 +19,19 @@ class ErrorMetadataTest extends \PHPUnit_Framework_TestCase
         $this->phoneNumberUtil = PhoneNumberUtil::getInstance();
     }
 
-    public function testParseEcuadorNumberWithNewAcceptedPrefixWithCountryCode()
+    function testParseNewEcuadorNumbers()
     {
-        $rawNumber = "593962600575";
-        $e164 = "+593962600575";
+        $testNumbers = array(
+            "593962600575" => "+593962600575",
+            "+593962600575" => "+593962600575",
+            "962600575" => "+593962600575",
+            "0962600575" => "+593962600575",
+        );
 
-        $normalizedNumber = $this->whenParseRawNumber($rawNumber);
-
-        $this->thenNormalizedNumberIsValidWithExpectedE164($normalizedNumber, $e164);
-    }
-
-    public function testParseEcuadorNumberWithNewAcceptedPrefixWithCountryCodeAndStartingWithPlus()
-    {
-        $rawNumber = "+593962600575";
-        $e164 = "+593962600575";
-
-        $normalizedNumber = $this->whenParseRawNumber($rawNumber);
-
-        $this->thenNormalizedNumberIsValidWithExpectedE164($normalizedNumber, $e164);
-    }
-
-    public function testParseEcuadorNumberWithNewAcceptedPrefixWithoutCountryCode()
-    {
-        $rawNumber = "962600575";
-        $e164 = "+593962600575";
-
-        $normalizedNumber = $this->whenParseRawNumber($rawNumber);
-
-        $this->thenNormalizedNumberIsValidWithExpectedE164($normalizedNumber, $e164);
-    }
-
-    public function testParseEcuadorNumberWithNewAcceptedPrefixWithoutCountryCodeAndWithLeadingZero()
-    {
-        $rawNumber = "0962600575";
-        $e164 = "+593962600575";
-
-        $normalizedNumber = $this->whenParseRawNumber($rawNumber);
-
-        $this->thenNormalizedNumberIsValidWithExpectedE164($normalizedNumber, $e164);
+        foreach($testNumbers as $rawNumber => $e164) {
+            $normalizedNumber = $this->whenParseRawNumber($rawNumber);
+            $this->thenNormalizedNumberIsValidWithExpectedE164($normalizedNumber, $e164);
+        }
     }
 
     /**
