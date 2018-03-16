@@ -19,10 +19,37 @@ class ErrorMetadataTest extends \PHPUnit_Framework_TestCase
         $this->phoneNumberUtil = PhoneNumberUtil::getInstance();
     }
 
-    public function testParseEcuadorNumberWithNewAcceptedPrefix()
+    function testParseNewEcuadorNumbers()
     {
-        $number = $this->phoneNumberUtil->parse('593962600575', 'EC');
+        $testNumbers = array(
+            "593962600575" => "+593962600575",
+            "+593962600575" => "+593962600575",
+            "962600575" => "+593962600575",
+            "0962600575" => "+593962600575",
+        );
 
-        $this->assertEquals("+593962600575", $this->phoneNumberUtil->format($number, PhoneNumberFormat::E164));
+        foreach($testNumbers as $rawNumber => $e164) {
+            $normalizedNumber = $this->whenParseRawNumber($rawNumber);
+            $this->thenNormalizedNumberIsValidWithExpectedE164($normalizedNumber, $e164);
+        }
+    }
+
+    /**
+     * @param $rawNumber
+     * @return \libphonenumber\PhoneNumber
+     */
+    private function whenParseRawNumber($rawNumber)
+    {
+        return $this->phoneNumberUtil->parse($rawNumber, "EC");
+    }
+
+    /**
+     * @param $normalizedNumber
+     * @param $e164
+     */
+    private function thenNormalizedNumberIsValidWithExpectedE164($normalizedNumber, $e164)
+    {
+        $this->assertEquals($e164, $this->phoneNumberUtil->format($normalizedNumber, PhoneNumberFormat::E164));
+        $this->assertEquals(true, $this->phoneNumberUtil->isValidNumber($normalizedNumber));
     }
 }
